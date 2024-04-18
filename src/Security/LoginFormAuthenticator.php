@@ -46,19 +46,17 @@ class   LoginFormAuthenticator extends AbstractAuthenticator
         $email = $request->request->get('email');
         $password = $request->request->get('password');
         return new Passport(
-            new UserBadge($email, function($userIdentifier) {
+            userBadge: new UserBadge($email, userLoader: function($userIdentifier) {
                 // optionally pass a callback to load the User manually
                 $user = $this->userRepository->findOneBy(['email' => $userIdentifier]);
-
                 if (!$user) {
                     throw new UserNotFoundException();
                 }
-
                 return $user;
             }),
-            new CustomCredentials(function($credentials, User $user) {
+            credentials: new CustomCredentials(customCredentialsChecker: function($credentials, User $user) {
                 return $credentials === 'tada';
-            }, $password)
+            }, credentials: $password)
         );
     }
 
