@@ -1,0 +1,54 @@
+{# proxmox.html.twig #}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proxmox Data</title>
+</head>
+<body>
+<div class="col-lg-8 row m-0 p-0">
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+            <div class="iq-card-body">
+                <div class="icon iq-icon-box iq-bg-primary rounded" data-wow-delay="0.2s">
+                    <i class="ri-cpu-line"></i>
+                </div>
+                <div class="mt-4">
+                    <h5 class="text-black text-uppercase">CPU</h5>
+                    <h3 class="d-flex text-primary">{{ nodes.data[0].cpu }}<i class="ri-arrow-up-line"></i></h3>
+                </div>
+                <p class="mb-0 mt-1">Uptime: {{ nodes.data[0].uptime }} seconds</p>
+                <p class="mb-0 mt-1">RAM Size: {{ (nodes.data[0].mem / 1024 / 1024) | round(2) }} MB</p> {# Converting bytes to MB #}
+                <div class="mt-3">
+                    <div class="iq-progress-bar-linear d-inline-block mt-1 w-100">
+                        <div class="iq-progress-bar">
+                            <span class="bg-primary" data-percent="{{ (nodes.data[0].cpu * 100 / nodes.data[0].maxcpu)|round(2) }}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if qemu.data is not empty %}
+        <div class="col-sm-6 col-md-6 col-lg-3">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                <div class="iq-card-body">
+                    <div class="icon iq-icon-box iq-bg-primary rounded" data-wow-delay="0.2s">
+                        <i class="ri-hard-drive-line"></i>
+                    </div>
+                    <div class="mt-4">
+                        <h5 class="text-black text-uppercase">QEMU</h5>
+                        <h3 class="d-flex text-primary">{{ qemu.data[0].name }}<i class="ri-arrow-up-line"></i></h3>
+                    </div>
+                    <p class="mb-0 mt-1">Status: {{ qemu.data[0].status }}</p>
+                    <p class="mb-0 mt-1">CPU: {{ qemu.data[0].cpu |number_format(4, '.', ',') * 100 }} %</p>
+                    <p class="mb-0 mt-1">RAM Size: {{ (qemu.data[0].mem / 1024 / 1024) | round(2) }} MB</p> {# Converting bytes to MB #}
+                    <!-- Add more information as needed -->
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>

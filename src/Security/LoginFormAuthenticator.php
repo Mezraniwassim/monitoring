@@ -64,7 +64,7 @@ class   LoginFormAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): RedirectResponse
     {
         return new RedirectResponse(
-            $this->router->generate('app_dashboard')
+            $this->router->generate('app_proxmox')
         );
     }
 
